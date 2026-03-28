@@ -78,6 +78,24 @@ export const getBestSellers = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+//Get products from top brands
+export const getTopBrandsProducts = async (req, res) => {
+    try {
+        const topBrands = ['Adidas', 'Puma', 'Skechers'];
+        const products = await Products.find({ brand: { $in: topBrands } })
+            .sort({ reviews: -1 })
+            .limit(12);
+
+        return res.status(200).json(products);
+    } catch (err) {
+        console.error('Error fetching top brands products:', err.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
+
+
 
 //Get search results
 export const searchProducts = async (req, res) => {
